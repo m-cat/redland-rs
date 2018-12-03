@@ -4,13 +4,19 @@
     non_camel_case_types,
     non_snake_case,
     non_upper_case_globals,
-    unused_mut
+    unused_assignments,
+    unused_mut,
 )]
+extern crate ffi_utils;
 extern crate redland_rs;
-use libc::{c_char, c_uchar};
+#[macro_use]
+extern crate unwrap;
+
+use ffi_utils::from_c_str;
+use libc::c_char;
 use redland_rs::*;
-use std::ffi::CStr;
-use std::ptr;
+use std::ffi::{CStr, CString};
+use std::{mem, ptr};
 
 extern crate libc;
 extern "C" {
@@ -53,8 +59,8 @@ extern "C" {
      * Macro for wrapping API function call declarations.
      *
      */
-    #[no_mangle]
-    static mut stderr: *mut _IO_FILE;
+    // #[no_mangle]
+    // static mut stderr: *mut _IO_FILE;
     #[no_mangle]
     fn fprintf(_: *mut FILE, _: *const libc::c_char, ...) -> libc::c_int;
     #[no_mangle]
@@ -1641,13 +1647,13 @@ unsafe extern "C" fn librdf_storage_hashes_register_factory(
         (*factory).name,
         b"mdata\x00" as *const u8 as *const libc::c_char,
     ) {
-        fprintf(stderr,
-                b"%s:%d: (%s) assertion failed: assertion !strcmp(factory->name, \"mdata\") failed.\n\x00"
-                    as *const u8 as *const libc::c_char,
-                b"rdf_storage_hashes.c\x00" as *const u8 as
-                    *const libc::c_char, 1937i32,
-                (*::std::mem::transmute::<&[u8; 39],
-                                          &[libc::c_char; 39]>(b"librdf_storage_hashes_register_factory\x00")).as_ptr());
+        // fprintf(stderr,
+        //         b"%s:%d: (%s) assertion failed: assertion !strcmp(factory->name, \"mdata\") failed.\n\x00"
+        //             as *const u8 as *const libc::c_char,
+        //         b"rdf_storage_hashes.c\x00" as *const u8 as
+        //             *const libc::c_char, 1937i32,
+        //         (*::std::mem::transmute::<&[u8; 39],
+        //                                   &[libc::c_char; 39]>(b"librdf_storage_hashes_register_factory\x00")).as_ptr());
         return;
     } else {
         (*factory).version = 1i32;
@@ -3130,6 +3136,7 @@ unsafe extern "C" fn librdf_storage_hashes_close(mut storage: *mut librdf_storag
     }
     return 0i32;
 }
+#[allow(unused_variables)]
 unsafe extern "C" fn librdf_storage_hashes_open(
     mut storage: *mut librdf_storage,
     mut model: *mut librdf_model,
@@ -3737,56 +3744,105 @@ impl Drop for Model {
     }
 }
 
+unsafe fn list_storages(world: &World) {
+    let mut i = 0;
+    loop {
+        let mut name: *const c_char = mem::zeroed();
+        let mut label: *const c_char = mem::zeroed();
+
+        if librdf_storage_enumerate(world.0, i, &mut name, &mut label) != 0 {
+            break;
+        }
+
+        let name = if !name.is_null() {
+            unwrap!(from_c_str(name))
+        } else {
+            "none".into()
+        };
+        let label = if !label.is_null() {
+            unwrap!(from_c_str(label))
+        } else {
+            "none".into()
+        };
+
+        println!("Name: {}\nLabel: {}", name, label);
+
+        println!();
+        i += 1;
+    }
+}
+
 fn main() {
     unsafe {
+        println!("Creating the world...");
         let world = World(librdf_new_world());
+        if world.0.is_null() {
+            println!("ERROR: an error occurred in librdf_new_world");
+            return;
+        }
 
+        // println!("Listing available storage methods...");
+        // println!();
+        // list_storages(&world);
+
+        println!("Initiating storage hashes...");
         librdf_init_storage_hashes(world.0);
 
-        let storage = librdf_new_storage(
-            world.0,
-            b"mdata\0" as *const _ as *const c_char,
-            ptr::null(),
-            ptr::null(),
-        );
+        println!("Creating storage...");
+        let name = unwrap!(CString::new("memory"));
+        let storage = librdf_new_storage(world.0, name.as_ptr(), name.as_ptr(), ptr::null());
+        if storage.is_null() {
+            println!("ERROR: an error occurred in librdf_new_storage");
+            return;
+        }
 
+        println!("Creating serializer...");
+        let turtle = unwrap!(CString::new("turtle"));
         let serializer = librdf_new_serializer(
             world.0,
-            b"turtle\0" as *const _ as *const c_char,
+            turtle.as_ptr(),
             ptr::null(),
             ptr::null_mut(),
         );
+        let maidsafe = unwrap!(CString::new("http://maidsafe.net/")).into_bytes_with_nul();
         let ms_schema = librdf_new_uri(
             world.0,
-            b"http://maidsafe.net/\0" as *const _ as *const c_uchar,
+            maidsafe.as_ptr(),
         );
+        let ms = unwrap!(CString::new("ms"));
         librdf_serializer_set_namespace(
             serializer,
             ms_schema,
-            b"ms\0" as *const _ as *const c_char,
+            ms.as_ptr(),
         );
 
+        println!("Creating new nodes...");
         let subject = librdf_new_node_from_uri_local_name(
             world.0,
             ms_schema,
-            b"MaidSafe\0" as *const _ as *const c_uchar,
+            maidsafe.as_ptr(),
         );
+        let location = unwrap!(CString::new("location")).into_bytes_with_nul();
         let predicate = librdf_new_node_from_uri_local_name(
             world.0,
             ms_schema,
-            b"location\0" as *const _ as *const c_uchar,
+            location.as_ptr(),
         );
 
+        println!("Creating new model...");
         let model = Model(librdf_new_model(world.0, storage, ptr::null()));
+        let ayr = unwrap!(CString::new("Ayr")).into_bytes_with_nul();
         librdf_model_add_string_literal_statement(
             model.0,
             subject,
             predicate,
-            b"Ayr\0" as *const _ as *const c_uchar,
+            ayr.as_ptr(),
             ptr::null(),
             0,
         );
 
+        println!("Serializing model to string...");
+        println!();
         let result =
             librdf_serializer_serialize_model_to_string(serializer, ptr::null_mut(), model.0);
         println!(
