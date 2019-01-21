@@ -1,5 +1,6 @@
 extern crate libc;
 extern crate redland_rs;
+extern crate unwrap;
 
 use redland_rs::*;
 
@@ -78,7 +79,7 @@ fn main() {
             librdf_serializer_serialize_model_to_string(serializer, ptr::null_mut(), model.0);
         println!(
             "{}",
-            CStr::from_ptr(result as *const c_char).to_str().unwrap()
+            unwrap!(CStr::from_ptr(result as *const c_char).to_str())
         );
 
         librdf_free_memory(result as *mut _);
