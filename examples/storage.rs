@@ -1,4 +1,3 @@
-// TODO: Delete commented-out use statements.
 // TODO: Get rid of unwraps.
 // TODO: Disallow unused_variables.
 
@@ -121,269 +120,6 @@ pub mod FILE_h {
     pub type FILE = _IO_FILE;
     use super::__FILE_h::_IO_FILE;
 }
-// #[header_src = "/usr/local/include/raptor2/raptor2.h"]
-// pub mod raptor2_h {
-//     pub type raptor_uri = raptor_uri_s;
-//     pub type raptor_world = raptor_world_s;
-//     pub type raptor_iostream = raptor_iostream_s;
-//     /* *
-//      * raptor_term_type:
-//      * @RAPTOR_TERM_TYPE_URI: RDF URI
-//      * @RAPTOR_TERM_TYPE_LITERAL: RDF literal
-//      * @RAPTOR_TERM_TYPE_BLANK: RDF blank node
-//      * @RAPTOR_TERM_TYPE_UNKNOWN: Internal
-//      *
-//      * Type of term in a #raptor_statement
-//      *
-//      * Node type 3 is unused but exists to preserve numeric compatibility
-//      * with librdf_node_type values.
-//      */
-//     pub type raptor_term_type = libc::c_uint;
-//     /* unused type 3 */
-//     pub const RAPTOR_TERM_TYPE_BLANK: raptor_term_type = 4;
-//     pub const RAPTOR_TERM_TYPE_LITERAL: raptor_term_type = 2;
-//     pub const RAPTOR_TERM_TYPE_URI: raptor_term_type = 1;
-//     pub const RAPTOR_TERM_TYPE_UNKNOWN: raptor_term_type = 0;
-//     /* *
-//      * raptor_locator:
-//      * @uri: URI of location (or NULL)
-//      * @file: Filename of location (or NULL)
-//      * @line: Line number of location (or <0 for no line)
-//      * @column: Column number of location (or <0 for no column)
-//      * @byte: Byte number of location (or <0 for no byte)
-//      *
-//      * Location information for an error, warning or information message.
-//      */
-//     #[derive(Copy, Clone)]
-//     #[repr(C)]
-//     pub struct raptor_locator {
-//         /* *
-//          * raptor_term_literal_value:
-//          * @string: literal string
-//          * @string_len: length of string
-//          * @datatype: datatype URI (or NULL)
-//          * @language: literal language (or NULL)
-//          * @language_len: length of language
-//          *
-//          * Literal term value - this typedef exists solely for use in #raptor_term
-//          *
-//          * Either @datatype or @language may be non-NULL but not both.
-//          */
-//         /* *
-//          * raptor_term_blank_value:
-//          * @string: literal string
-//          * @string_len: length of string
-//          *
-//          * Blank term value - this typedef exists solely for use in #raptor_term
-//          *
-//          */
-//         /* *
-//          * raptor_term_value:
-//          * @uri: uri value when term type is #RAPTOR_TERM_TYPE_URI
-//          * @literal: literal value when term type is #RAPTOR_TERM_TYPE_LITERAL
-//          * @blank: blank value when term type is #RAPTOR_TERM_TYPE_BLANK
-//          *
-//          * Term value - this typedef exists solely for use in #raptor_term
-//          *
-//          **/
-//         pub uri: *mut raptor_uri,
-//         pub file: *const libc::c_char,
-//         pub line: libc::c_int,
-//         pub column: libc::c_int,
-//         pub byte: libc::c_int,
-//     }
-//     #[derive(Copy, Clone)]
-//     #[repr(C)]
-//     pub struct raptor_term_literal_value {
-//         /* *
-//          * raptor_term:
-//          * @world: world
-//          * @usage: usage reference count (if >0)
-//          * @type: term type
-//          * @value: term values per type
-//          *
-//          * An RDF statement term
-//          *
-//          */
-//         pub string: *mut libc::c_uchar,
-//         pub string_len: libc::c_uint,
-//         pub datatype: *mut raptor_uri,
-//         pub language: *mut libc::c_uchar,
-//         pub language_len: libc::c_uchar,
-//     }
-//     #[derive(Copy, Clone)]
-//     #[repr(C)]
-//     pub struct raptor_term_blank_value {
-//         /* *
-//          * raptor_statement:
-//          * @world: world pointer
-//          * @usage: usage count
-//          * @subject: statement subject
-//          * @predicate: statement predicate
-//          * @object: statement object
-//          * @graph: statement graph name (or NULL if not present)
-//          *
-//          * An RDF triple with optional graph name (quad)
-//          *
-//          * See #raptor_term for a description of how the fields may be used.
-//          * As returned by a parser statement_handler.
-//          */
-//         pub string: *mut libc::c_uchar,
-//         pub string_len: libc::c_uint,
-//     }
-//     #[derive(Copy, Clone)]
-//     #[repr(C)]
-//     pub union raptor_term_value {
-//         /* -*- Mode: c; c-basic-offset: 2 -*-
-//          *
-//          * raptor.h - Redland Parser Toolkit for RDF (Raptor) - public API
-//          *
-//          * Copyright (C) 2000-2013, David Beckett http://www.dajobe.org/
-//          * Copyright (C) 2000-2005, University of Bristol, UK http://www.bristol.ac.uk/
-//          *
-//          * This package is Free Software and part of Redland http://librdf.org/
-//          *
-//          * It is licensed under the following three licenses as alternatives:
-//          *   1. GNU Lesser General Public License (LGPL) V2.1 or any newer version
-//          *   2. GNU General Public License (GPL) V2 or any newer version
-//          *   3. Apache License, V2.0 or any newer version
-//          *
-//          * You may not use this file except in compliance with at least one of
-//          * the above three licenses.
-//          *
-//          * See LICENSE.html or LICENSE.txt at the top of this package for the
-//          * complete terms and further detail along with the license texts for
-//          * the licenses in COPYING.LIB, COPYING and LICENSE-2.0.txt respectively.
-//          *
-//          *
-//          */
-//         /* Required for va_list in raptor_vsnprintf */
-//         /* *
-//          * RAPTOR_V2_AVAILABLE
-//          *
-//          * Flag for marking raptor2 API availability.
-//          */
-//         /* *
-//          * RAPTOR_VERSION:
-//          *
-//          * Raptor library version number
-//          *
-//          * Format: major * 10000 + minor * 100 + release
-//          */
-//         /* *
-//          * RAPTOR_VERSION_STRING:
-//          *
-//          * Raptor library version string
-//          */
-//         /* *
-//          * RAPTOR_VERSION_MAJOR:
-//          *
-//          * Raptor library major version
-//          */
-//         /* *
-//          * RAPTOR_VERSION_MINOR:
-//          *
-//          * Raptor library minor version
-//          */
-//         /* *
-//          * RAPTOR_VERSION_RELEASE:
-//          *
-//          * Raptor library release
-//          */
-//         /* *
-//          * RAPTOR_API:
-//          *
-//          * Macro for wrapping API function call declarations.
-//          *
-//          */
-//         /* Use gcc 3.1+ feature to allow marking of deprecated API calls.
-//          * This gives a warning during compiling.
-//          */
-//         /* *
-//          * RAPTOR_PRINTF_FORMAT:
-//          * @string_index: ignore me
-//          * @first_to_check_index: ignore me
-//          *
-//          * Internal macro
-//          */
-//         /* *
-//          * raptor_uri:
-//          *
-//          * Raptor URI Class.
-//          */
-//         pub uri: *mut raptor_uri,
-//         pub literal: raptor_term_literal_value,
-//         pub blank: raptor_term_blank_value,
-//     }
-//     #[derive(Copy, Clone)]
-//     #[repr(C)]
-//     pub struct raptor_term {
-//         /* Public structure */
-//         /**
-//          * raptor_world:
-//          *
-//          * Raptor world class.
-//          */
-//         pub world: *mut raptor_world,
-//         pub usage: libc::c_int,
-//         pub type_0: raptor_term_type,
-//         pub value: raptor_term_value,
-//     }
-//     #[derive(Copy, Clone)]
-//     #[repr(C)]
-//     pub struct raptor_statement {
-//         /* *
-//          * raptor_iostream:
-//          *
-//          * Raptor I/O Stream class
-//          */
-//         pub world: *mut raptor_world,
-//         pub usage: libc::c_int,
-//         pub subject: *mut raptor_term,
-//         pub predicate: *mut raptor_term,
-//         pub object: *mut raptor_term,
-//         pub graph: *mut raptor_term,
-//     }
-//     pub type raptor_sequence = raptor_sequence_s;
-//     use super::libc;
-//     extern "C" {
-//         pub type raptor_uri_s;
-//         pub type raptor_world_s;
-//         pub type raptor_iostream_s;
-//         /* Sequence class */
-//         /**
-//          * raptor_sequence:
-//          *
-//          * Raptor sequence class
-//          */
-//         pub type raptor_sequence_s;
-//     }
-// }
-// #[header_src = "/usr/local/include/rasqal/rasqal.h"]
-// pub mod rasqal_h {
-//     pub type rasqal_world = rasqal_world_s;
-//     pub type rasqal_query_results_formatter = rasqal_query_results_formatter_s;
-//     extern "C" {
-//         /* *
-//          * RASQAL_RAPTOR_VERSION:
-//          *
-//          * Version of Raptor that Rasqal was configured against.
-//          */
-//         /* Public structures */
-//         /* *
-//          * rasqal_world:
-//          *
-//          * Rasqal world class.
-//          */
-//         pub type rasqal_world_s;
-//         /* *
-//          * rasqal_query_results_formatter:
-//          *
-//          * Rasqal query results formatter class.
-//          */
-//         pub type rasqal_query_results_formatter_s;
-//     }
-// }
 #[header_src = "/home/vagrant/C2Rust/redland-1.0.17/src/librdf.h"]
 pub mod librdf_h {
     use rasqal_rs::{raptor_iostream, rasqal_query_results_formatter};
@@ -1059,10 +795,6 @@ pub mod librdf_h {
     }
     pub type librdf_storage_factory = librdf_storage_factory_s;
     use super::libc;
-    // use super::raptor2_h::{
-    //     raptor_iostream, raptor_sequence, raptor_statement, raptor_term, raptor_uri_s, raptor_world,
-    // };
-    // use super::rasqal_h::{rasqal_query_results_formatter, rasqal_world};
     use super::rdf_hash_internal_h::{
         librdf_hash_datum, librdf_hash_factory, librdf_hash_factory_s,
     };
@@ -1082,7 +814,6 @@ pub mod rdf_init_h {
     use super::libc;
     use rasqal_rs::raptor_world;
     use rasqal_rs::rasqal_world;
-    // use super::rasqal_h::rasqal_world;
 }
 #[header_src = "/home/vagrant/C2Rust/redland-1.0.17/src/rdf_hash_internal.h"]
 pub mod rdf_hash_internal_h {
@@ -1928,16 +1659,6 @@ use self::librdf_h::{
     librdf_storage_factory_s, librdf_storage_s, librdf_stream, librdf_stream_s, librdf_uri,
     librdf_world,
 };
-// use self::raptor2_h::{
-//     raptor_iostream, raptor_iostream_s, raptor_locator, raptor_sequence, raptor_sequence_s,
-//     raptor_statement, raptor_term, raptor_term_blank_value, raptor_term_literal_value,
-//     raptor_term_type, raptor_term_value, raptor_uri, raptor_uri_s, raptor_world, raptor_world_s,
-//     RAPTOR_TERM_TYPE_BLANK, RAPTOR_TERM_TYPE_LITERAL, RAPTOR_TERM_TYPE_UNKNOWN,
-//     RAPTOR_TERM_TYPE_URI,
-// };
-// use self::rasqal_h::{
-//     rasqal_query_results_formatter, rasqal_query_results_formatter_s, rasqal_world, rasqal_world_s,
-// };
 use self::rdf_hash_h::{
     librdf_free_hash, librdf_hash_get_as_boolean, librdf_hash_get_as_long, librdf_hash_get_del,
     librdf_new_hash, librdf_new_hash_from_hash,
@@ -2062,8 +1783,6 @@ unsafe fn copy_statement_to_mdata(
         };
 
         let content = unwrap!(CStr::from_ptr(content as *const c_char).to_str());
-
-        println!("... Inserting '{}'", content);
 
         actions.ins(key, content.as_bytes().to_vec(), 1)
     }
@@ -2287,12 +2006,165 @@ unsafe extern "C" fn librdf_storage_mdata_register_factory(
     (*factory).find_sources = None; //Some(librdf_storage_mdata_find_sources);
     (*factory).find_arcs = None; //Some(librdf_storage_mdata_find_arcs);
     (*factory).find_targets = None; //Some(librdf_storage_mdata_find_targets);
-    (*factory).context_add_statement = None; //Some(librdf_storage_mdata_context_add_statement);
-    (*factory).context_remove_statement = None; //Some(librdf_storage_mdata_context_remove_statement);
+    (*factory).context_add_statement = Some(librdf_storage_mdata_context_add_statement);
+    (*factory).context_remove_statement = Some(librdf_storage_mdata_context_remove_statement);
     (*factory).context_serialise = Some(librdf_storage_mdata_context_serialise);
     (*factory).sync = None; //Some(librdf_storage_mdata_sync);
-    (*factory).get_contexts = None; //Some(librdf_storage_mdata_get_contexts);
-    (*factory).get_feature = None; //Some(librdf_storage_mdata_get_feature);
+    (*factory).get_contexts = Some(librdf_storage_mdata_get_contexts);
+    (*factory).get_feature = Some(librdf_storage_mdata_get_feature);
+}
+
+#[allow(unused_variables)]
+unsafe extern "C" fn librdf_storage_mdata_init(
+    mut storage: *mut librdf_storage,
+    mut name: *const libc::c_char,
+    mut options: *mut librdf_hash,
+) -> libc::c_int {
+    println!("Initializing mdata storage...");
+
+    if options.is_null() {
+        return 1;
+    }
+
+    println!("... Fetching the owner from the options string");
+    let owner = librdf_hash_get_del(options, b"owner\x00" as *const u8 as *const libc::c_char);
+
+    if owner.is_null() {
+        println!("... No owner found in options string");
+        return 1;
+    }
+
+    // We need to parse the owner key from its human-readable UTF8 form into bytes.
+    let owner_formatted = unwrap!(ffi_utils::from_c_str(owner));
+    let owner = parse_formatted_key(&owner_formatted);
+    println!("... Owner public key: {:?}", owner.0);
+
+    let mut context: *mut librdf_storage_mdata_instance = 0 as *mut librdf_storage_mdata_instance;
+
+    context = calloc(
+        1 as libc::c_ulong,
+        ::std::mem::size_of::<librdf_storage_mdata_instance>() as libc::c_ulong,
+    ) as *mut librdf_storage_mdata_instance;
+    if context.is_null() {
+        return 1;
+    }
+
+    (*context).owner = owner;
+    librdf_storage_set_instance(storage, context as librdf_storage_instance);
+
+    /* no more options, might as well free them now */
+    if !options.is_null() {
+        librdf_free_hash(options);
+    }
+
+    return 0;
+}
+
+unsafe extern "C" fn librdf_storage_mdata_terminate(mut storage: *mut librdf_storage) {
+    println!("Terminating mdata storage...");
+
+    if (*storage).instance.is_null() {
+        return;
+    } else {
+        free((*storage).instance);
+        return;
+    };
+}
+
+#[allow(unused_variables)]
+unsafe extern "C" fn librdf_storage_mdata_open(
+    mut storage: *mut librdf_storage,
+    mut model: *mut librdf_model,
+) -> libc::c_int {
+    println!("Opening mdata storage...");
+
+    let mut context: *mut librdf_storage_mdata_instance =
+        (*storage).instance as *mut librdf_storage_mdata_instance;
+
+    (*context).mdatas = Vec::new();
+
+    return 0;
+}
+
+unsafe extern "C" fn librdf_storage_mdata_close(mut storage: *mut librdf_storage) -> libc::c_int {
+    println!("Closing mdata storage...");
+
+    unimplemented!()
+}
+
+unsafe extern "C" fn librdf_storage_mdata_size(mut storage: *mut librdf_storage) -> libc::c_int {
+    println!("Getting mdata storage size...");
+
+    let mut context: *mut librdf_storage_mdata_instance =
+        (*storage).instance as *mut librdf_storage_mdata_instance;
+    return (*context).mdatas.len() as libc::c_int;
+}
+
+unsafe extern "C" fn librdf_storage_mdata_add_statement(
+    mut storage: *mut librdf_storage,
+    mut statement: *mut librdf_statement,
+) -> libc::c_int {
+    println!("Adding statement...");
+
+    let mut context: *mut librdf_storage_mdata_instance =
+        (*storage).instance as *mut librdf_storage_mdata_instance;
+
+    /* Do not add duplicate statements */
+    if 0 != librdf_storage_mdata_contains_statement(storage, statement) {
+        return 0;
+    }
+
+    let statement_mdata = copy_statement_to_mdata(statement, (*context).owner);
+
+    (*context).mdatas.push(statement_mdata);
+
+    return 0;
+}
+
+unsafe extern "C" fn librdf_storage_mdata_add_statements(
+    mut storage: *mut librdf_storage,
+    mut statement_stream: *mut librdf_stream,
+) -> libc::c_int {
+    println!("Adding statements...");
+
+    let mut status: libc::c_int = 0;
+
+    while 0 == librdf_stream_end(statement_stream) {
+        let mut statement: *mut librdf_statement = librdf_stream_get_object(statement_stream);
+        if statement.is_null() {
+            status = 1;
+            break;
+        }
+
+        librdf_storage_mdata_add_statement(storage, statement);
+
+        librdf_stream_next(statement_stream);
+    }
+
+    return status;
+}
+
+unsafe extern "C" fn librdf_storage_mdata_remove_statement(
+    mut storage: *mut librdf_storage,
+    mut statement: *mut librdf_statement,
+) -> libc::c_int {
+    println!("Removing mdata storage statement...");
+
+    unimplemented!()
+}
+
+unsafe extern "C" fn librdf_storage_mdata_contains_statement(
+    mut storage: *mut librdf_storage,
+    mut statement: *mut librdf_statement,
+) -> libc::c_int {
+    println!("Checking if mdata storage contains statement...");
+
+    let mut context: *mut librdf_storage_mdata_instance =
+        (*storage).instance as *mut librdf_storage_mdata_instance;
+
+    let statement_mdata = copy_statement_to_mdata(statement, (*context).owner);
+
+    return (*context).mdatas.contains(&statement_mdata) as libc::c_int;
 }
 
 unsafe extern "C" fn librdf_storage_mdata_serialise(
@@ -2413,6 +2285,26 @@ unsafe extern "C" fn librdf_storage_mdata_find_statements(
     unimplemented!()
 }
 
+unsafe extern "C" fn librdf_storage_mdata_context_add_statement(
+    mut storage: *mut librdf_storage,
+    mut context_node: *mut librdf_node,
+    mut statement: *mut librdf_statement,
+) -> libc::c_int {
+    println!("Adding statement to mdata storage context...");
+
+    unimplemented!()
+}
+
+unsafe extern "C" fn librdf_storage_mdata_context_remove_statement(
+    mut storage: *mut librdf_storage,
+    mut context_node: *mut librdf_node,
+    mut statement: *mut librdf_statement,
+) -> libc::c_int {
+    println!("Removing statement from mdata storage context...");
+
+    unimplemented!()
+}
+
 unsafe extern "C" fn librdf_storage_mdata_context_serialise(
     mut storage: *mut librdf_storage,
     mut context_node: *mut librdf_node,
@@ -2422,157 +2314,22 @@ unsafe extern "C" fn librdf_storage_mdata_context_serialise(
     unimplemented!()
 }
 
-unsafe extern "C" fn librdf_storage_mdata_contains_statement(
+unsafe extern "C" fn librdf_storage_mdata_get_contexts(
     mut storage: *mut librdf_storage,
-    mut statement: *mut librdf_statement,
-) -> libc::c_int {
-    println!("Checking if mdata storage contains statement...");
-
-    let mut context: *mut librdf_storage_mdata_instance =
-        (*storage).instance as *mut librdf_storage_mdata_instance;
-
-    let statement_mdata = copy_statement_to_mdata(statement, (*context).owner);
-
-    return (*context).mdatas.contains(&statement_mdata) as libc::c_int;
-}
-
-unsafe extern "C" fn librdf_storage_mdata_add_statement(
-    mut storage: *mut librdf_storage,
-    mut statement: *mut librdf_statement,
-) -> libc::c_int {
-    println!("Adding statement...");
-
-    let mut context: *mut librdf_storage_mdata_instance =
-        (*storage).instance as *mut librdf_storage_mdata_instance;
-
-    /* Do not add duplicate statements */
-    if 0 != librdf_storage_mdata_contains_statement(storage, statement) {
-        return 0;
-    }
-
-    let statement_mdata = copy_statement_to_mdata(statement, (*context).owner);
-
-    (*context).mdatas.push(statement_mdata);
-
-    return 0;
-}
-
-unsafe extern "C" fn librdf_storage_mdata_add_statements(
-    mut storage: *mut librdf_storage,
-    mut statement_stream: *mut librdf_stream,
-) -> libc::c_int {
-    println!("Adding statements...");
-
-    let mut status: libc::c_int = 0;
-
-    while 0 == librdf_stream_end(statement_stream) {
-        let mut statement: *mut librdf_statement = librdf_stream_get_object(statement_stream);
-        if statement.is_null() {
-            status = 1;
-            break;
-        }
-
-        librdf_storage_mdata_add_statement(storage, statement);
-
-        librdf_stream_next(statement_stream);
-    }
-
-    return status;
-}
-
-unsafe extern "C" fn librdf_storage_mdata_remove_statement(
-    mut storage: *mut librdf_storage,
-    mut statement: *mut librdf_statement,
-) -> libc::c_int {
-    println!("Removing mdata storage statement...");
+) -> *mut librdf_iterator {
+    println!("Getting mdata storage contexts...");
 
     unimplemented!()
 }
 
-unsafe extern "C" fn librdf_storage_mdata_terminate(mut storage: *mut librdf_storage) {
-    println!("Terminating mdata storage...");
-
-    if (*storage).instance.is_null() {
-        return;
-    } else {
-        free((*storage).instance);
-        return;
-    };
-}
-
-#[allow(unused_variables)]
-unsafe extern "C" fn librdf_storage_mdata_open(
+unsafe extern "C" fn librdf_storage_mdata_get_feature(
     mut storage: *mut librdf_storage,
-    mut model: *mut librdf_model,
-) -> libc::c_int {
-    println!("Opening mdata storage...");
+    mut feature: *mut librdf_uri,
+) -> *mut librdf_node {
+    println!("Getting mdata storage feature...");
 
-    let mut context: *mut librdf_storage_mdata_instance =
-        (*storage).instance as *mut librdf_storage_mdata_instance;
-
-    (*context).mdatas = Vec::new();
-
-    return 0;
-}
-
-unsafe extern "C" fn librdf_storage_mdata_close(mut storage: *mut librdf_storage) -> libc::c_int {
-    println!("Closing mdata storage...");
-
-    unimplemented!()
-}
-
-unsafe extern "C" fn librdf_storage_mdata_size(mut storage: *mut librdf_storage) -> libc::c_int {
-    println!("Getting mdata storage size...");
-
-    let mut context: *mut librdf_storage_mdata_instance =
-        (*storage).instance as *mut librdf_storage_mdata_instance;
-    return (*context).mdatas.len() as libc::c_int;
-}
-
-#[allow(unused_variables)]
-unsafe extern "C" fn librdf_storage_mdata_init(
-    mut storage: *mut librdf_storage,
-    mut name: *const libc::c_char,
-    mut options: *mut librdf_hash,
-) -> libc::c_int {
-    println!("Initializing mdata storage...");
-
-    if options.is_null() {
-        return 1;
-    }
-
-    println!("... Fetching the owner from the options string");
-    let owner = librdf_hash_get_del(options, b"owner\x00" as *const u8 as *const libc::c_char);
-
-    if owner.is_null() {
-        println!("... No owner found in options string");
-        return 1;
-    }
-
-    // We need to parse the owner key from its human-readable UTF8 form into bytes.
-    let owner_formatted = unwrap!(ffi_utils::from_c_str(owner));
-    let owner = parse_formatted_key(&owner_formatted);
-    println!("... Owner public key: {:?}", owner.0);
-
-    let mut context: *mut librdf_storage_mdata_instance = 0 as *mut librdf_storage_mdata_instance;
-
-    context = calloc(
-        1 as libc::c_ulong,
-        ::std::mem::size_of::<librdf_storage_mdata_instance>() as libc::c_ulong,
-    ) as *mut librdf_storage_mdata_instance;
-    if context.is_null() {
-        return 1;
-    }
-
-    (*context).owner = owner;
-    librdf_storage_set_instance(storage, context as librdf_storage_instance);
-
-    /* no more options, might as well free them now */
-    if !options.is_null() {
-        librdf_free_hash(options);
-    }
-
-    return 0;
+    // There are no features for mdata storage.
+    0 as *mut librdf_node
 }
 
 fn parse_formatted_key(key: &str) -> PublicSignKey {
@@ -2671,8 +2428,6 @@ fn main() {
         let mut options = format!("owner='{:?}'", owner.0);
         let options = unwrap!(CString::new(options));
 
-        // println!("Using options string \"{}\"", unwrap!(options.to_str()));
-
         let name = unwrap!(CString::new("mdata"));
         let storage = librdf_new_storage(world.0, name.as_ptr(), name.as_ptr(), options.as_ptr());
         if storage.is_null() {
@@ -2699,6 +2454,9 @@ fn main() {
         println!("Creating new model");
 
         let model = Model(librdf_new_model(world.0, storage, ptr::null()));
+
+        println!("Adding literal statement to model");
+
         let ayr = unwrap!(CString::new("Ayr")).into_bytes_with_nul();
         librdf_model_add_string_literal_statement(
             model.0,
